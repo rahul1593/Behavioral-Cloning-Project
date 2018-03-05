@@ -46,6 +46,6 @@ These captured imaged can then be used to create a video by using the following 
 
 This model was trained on the PC using Integrated graphics for Display and external Nvidia graphics for training (only). So, it may not be able to use external GPU and throw errors if used to drive car in simulator in autonomous mode using `drive.py`. To avoid such errors and run the model on CPU, I've added following line in `drive.py` (drive.py line 24).
 
-    `os.environ["CUDA_VISIBLE_DEVICES"] = "-1"`
+    _os.environ["CUDA_VISIBLE_DEVICES"] = "-1"_
 
 If you are using same Nvidia GPU for display and training, you can uncomment this line and proceed.
