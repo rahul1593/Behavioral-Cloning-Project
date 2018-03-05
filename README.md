@@ -32,20 +32,20 @@ To train the model, you can either use __model.ipynb__ or __model.py__. Modifyab
 
 Model(`model.h5`) can be used to drive the car in Udacity simulator by using the following command:
 
-    `python drive.py model.h5`
+    python drive.py model.h5
 
 To record the run, following command can be used:
 
-    `python drive.py model.h5 recorded_run`
+    python drive.py model.h5 recorded_run
 
 This will create a directory with name _recorded\_run_ containing the captured images.
 
 These captured imaged can then be used to create a video by using the following command:
 
-    `python video.py recorded_run`
+    python video.py recorded_run
 
 This model was trained on the PC using Integrated graphics for Display and external Nvidia graphics for training (only). So, it may not be able to use external GPU and throw errors if used to drive car in simulator in autonomous mode using `drive.py`. To avoid such errors and run the model on CPU, I've added following line in `drive.py` (drive.py line 24).
 
-    _os.environ["CUDA_VISIBLE_DEVICES"] = "-1"_
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 If you are using same Nvidia GPU for display and training, you can uncomment this line and proceed.
