@@ -19,7 +19,6 @@ The steps of this project are the following:
 * model.h5    : Trained model
 * writeup_report.md : Writeup report for this project in markdown format
 * video.mp4   : Output video of car autonomously completing one lap of the track
-* data        : Directory containing the training data
 
 ## Running the Code
 This model was trained using following versions of major libraries:
