@@ -11,6 +11,8 @@ The steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
+This project uses Nvidia's model for training and testing.
+
 ## Important Files and Directories
 * model.py    : Python code for the model, its training and saving the model
 * drive.py    : Python code to drive the car using the trained model
@@ -48,4 +50,7 @@ This model was trained on the PC using Integrated graphics for Display and exter
 
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
-If you are using same Nvidia GPU for display and training, you can uncomment this line and proceed.
+If you are using same Nvidia GPU for display and training, then it should work fine.
+
+To prepare input in autonomous mode for the model, I've converted the images to YUV format and resized to 200x66 (w x h).
+
