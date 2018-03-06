@@ -52,5 +52,5 @@ This model was trained on the PC using Integrated graphics for Display and exter
 
 If you are using same Nvidia GPU for display and training, then it should work fine.
 
-To prepare input in autonomous mode for the model, I've converted the images to YUV format and resized to 200x66 (w x h).
+To prepare input in autonomous mode for the model, I've converted the images to YUV format and resized to 200x66 (w x h) before feeding to the model for prediction (drive.py line 66-67).
 
