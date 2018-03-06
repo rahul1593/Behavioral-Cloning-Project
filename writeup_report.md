@@ -156,7 +156,7 @@ The final model architecture (model.py lines 83-115) consisted of a convolutiona
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Dropout</td>
-            <td style="text-align:center">Keep probability 0.3</td>
+            <td style="text-align:center">Drop probability 0.3</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Dense</td>
@@ -167,7 +167,7 @@ The final model architecture (model.py lines 83-115) consisted of a convolutiona
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Dropout</td>
-            <td style="text-align:center">Keep probability 0.2</td>
+            <td style="text-align:center">Drop probability 0.2</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Dense</td>
