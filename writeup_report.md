@@ -13,6 +13,8 @@ The steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
+This project uses modified Nvidia architecture for the model.
+
 ## Files Submitted & Code Quality
 
 __1. Submission includes all required files and can be used to run the simulator in autonomous mode__
@@ -41,32 +43,32 @@ The model.py file contains the code for training and saving the convolution neur
 
 __1. An appropriate model architecture has been employed__
 
-My model consists of 4 convolutions of filter sizes 7x7, 5x5 and 3x3 having depths between 16 and 64 (model.py lines 105-119).
+My model is the modified version of Nvidia's model. It consists of 5 convolutions of filter sizes 7x7, 5x5 and 3x3 having depths between 24 and 64 (model.py lines 83-115).
 
-The model includes ELU layers to introduce nonlinearity (model.py line 106), and the data is normalized in the model using a Keras lambda layer (model.py line 102).
+The model includes RELU layers to introduce nonlinearity (model.py line 90), and the data is normalized in the model using a Keras lambda layer (model.py line 87).
 
-Images are also converted to grayscale before normalization so that color does not interfere in the pattern which the model has to learn. 
+Images are also converted to YUV format and cropped to size 200x136 pixels in generator function(model.py line 64-65), so that after cropping layer, the input size is 200x66 pixels, which is fit for input to Nvidia's model.
 
 
 __2. Attempts to reduce overfitting in the model__
 
-The model contains two dropout layers with dropout probabilities of 0.3 and 0.2 after flatten and its' following dense layer respectively in order to reduce overfitting (model.py lines 124 - 129).
+The model contains two dropout layers with dropout probabilities of 0.3 and 0.5 after flatten and its' following dense layer respectively in order to reduce overfitting (model.py lines 105 - 110).
 
-The model was trained and validated on different data sets created by the splitting the recorded dataset(model.py line 42). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on different data sets created by the splitting the recorded dataset(model.py line 43). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 
 __3. Model parameter tuning__
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 135).
+The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 119).
 
 
 __4. Appropriate training data__
 
-To collect data for the project, I took around 3 laps of the track. During these laps, car was almost at the center while moving near and away from the road boundaries at some points. The track has more of turns towards right rather than left. This would lead to the car turning more towards right even when not required sometimes.
+I used data provided by Udacity for training and validation in this project. In this data, it can be observed that the car is at the center at most of the points. The track has more of turns towards right rather than left. This would lead to the car turning more towards right even when not required sometimes.
 
 To address these problem, I augmented the data by flipping the data horizontally. That would remove any direction bias from the dataset.
 
-The data also has imaged from left and right camera. These images have to be interpreted as they were coming from the center camera. So I added correction of __0.3__ for these images in steering angle for these images.
+The data also has imaged from left and right camera. These images have to be interpreted as they were coming from the center camera. So I added correction of __0.2__ for these images in steering angle for these images.
 
 
 ## Training Strategy
@@ -80,16 +82,18 @@ My first step was to use a convolution neural network model similar to LeNet-5. 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a high mean squared error on both the training and validation sets. This implied that the model was not performing well for this application.
 
 So, I modified the model by adding two more convolution layers and modifying the number of outputs in dense layers in the model. 
-I also increased the filter size to 7x7 for the first convolutional layer. This model has only two dense layers, one of which is the output. I also converted the images to grayscale with more weight to red and green color channels and normalized them, bacause the only thing that the model has to learn was to stay in center of the lines where the road ends on both sides of the road.
+I also increased the filter size to 7x7 for the first convolutional layer. This model has only two dense layers, one of which is the output. I also converted the images to grayscale with more weight to red and green color channels and normalized them, bacause the only thing that the model has to learn was to stay in center of the lines where the road ends on both sides of the road. But that could not work on one portion of road where one of the sides of road would look like drivable portion in grayscale image.
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track initially but after modifications to the model, the driving behavior improved significantly.
+So, Finally I adopted Nvidia's model for training. I increased the size of filters in first convolutional layer to 7x7 and removed one dense layer. I also added droupout regularization in between dense layers.
 
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track initially but after using modified Nvidia's model, the driving behavior improved significantly.
+
+At the end of the process, the vehicle is able to drive autonomously around the track without leaving the drivable portion of the road.
 
 
 __2. Final Model Architecture__
 
-The final model architecture (model.py lines 96-131) consisted of a convolutional neural network with the following layers and layer sizes:
+The final model architecture (model.py lines 83-115) consisted of a convolutional neural network as according to Nvidia's paper (End to End Learning for Self-Driving Cars) with minor modifications which has the following layers and layer sizes:
 
 <table align="left" style="border:1px solid #cccccc">
     <thead>
@@ -186,7 +190,7 @@ The final model architecture (model.py lines 96-131) consisted of a convolutiona
 
 __3. Creation of the Training Set & Training Process__
 
-For the first track, I recorded the run for three laps to get sufficient data for training and validation.
+For the first track, I used data provided by Udacity which was sufficient for training and validation.
 
 To augment the data sat, I also flipped images and angles so that there is equal data for vehicle turning on both sides. 
 For example, here is an image that has then been flipped:
@@ -202,13 +206,13 @@ For example, here is an image that has then been flipped:
         </td>
     </tr>
 </table>
-I also used the images from left and right camera so that they were coming from center camera by adding a steer correction of 0.3 accordingly.
+I also used the images from left and right camera so that they were coming from center camera by adding a steer correction of 0.2 accordingly.
 
-After the collection process, I had 11176 number of data points for training and 2795 for validation. I then preprocessed this data by converting the images to grayscale so that only the pattern is captured. I also normaized the image so that values fall in range of 0 and 1.
+After the collection process, I had 25336 number of data points for training and 4472 for validation. I then preprocessed this data by converting the images to YUV format and resizing them to 200x66 pixels to make it fit for input to Nvidia's model architecture. I also normaized the image so that values fall in range of -1 and 1.
 
-I finally randomly shuffled the data set and put 20% of the data into a validation set.
+I finally randomly shuffled the data set and put 15% of the data into a validation set.
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 7, since the loss was decreasing till 7 epochs and tend to increase thereafter. I used an adam optimizer so that manually setting the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 5, since the loss was decreasing till 5 epochs and output was fine with it. I used an adam optimizer so that manually setting the learning rate wasn't necessary.
 
 Following is the link for recorded output video for this project:
 https://github.com/rahul1593/Behavioral-Cloning-Project/raw/master/video.mp4
