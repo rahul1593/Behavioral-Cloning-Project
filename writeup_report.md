@@ -43,7 +43,7 @@ The model.py file contains the code for training and saving the convolution neur
 
 __1. An appropriate model architecture has been employed__
 
-My model is the modified version of Nvidia's model. It consists of 5 convolutions of filter sizes 7x7, 5x5 and 3x3 having depths between 24 and 64 (model.py lines 83-115).
+My model is the modified version of Nvidia's model architecture. It consists of 5 convolutions of filter sizes 7x7, 5x5 and 3x3 having depths between 24 and 64 (model.py lines 83-115).
 
 The model includes RELU layers to introduce nonlinearity (model.py line 90), and the data is normalized in the model using a Keras lambda layer (model.py line 87).
 
@@ -105,59 +105,50 @@ The final model architecture (model.py lines 83-115) consisted of a convolutiona
     <tbody>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Input</td>
-            <td style="text-align:center">BGR image of shape 160, 320, 3</td>
+            <td style="text-align:center">BGR image of shape 136, 320, 3</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Cropping</td>
-            <td style="text-align:center">50px from top and 20px from bottom</td>
+            <td style="text-align:center">50px from top and 20px from bottom, output 66x200x3</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Normalization</td>
-            <td style="text-align:center">Normalize data to be in range of 0 to 1</td>
+            <td style="text-align:center">Normalize data to be in range of -1 to 1</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Convolution 7x7</td>
-            <td style="text-align:center">1x1 stride, SAME padding, output 90x320x64</td>
+            <td style="text-align:center">2x2 stride, VALID padding, output 30x97x24</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">ELU</td><td></td>
-        </tr>
-        <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">Max pooling</td>
-            <td style="text-align:center">2x2 stride, SAME padding, output 45x160x64</td>
+            <td style="text-align:center;border-right:1px solid #cccccc">RELU</td><td></td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Convolution 5x5</td>
-            <td style="text-align:center">1x1 stride, VALID padding, output 41x156x32</td>
+            <td style="text-align:center">2x2 stride, VALID padding, output 13x47x36</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">ELU</td><td></td>
+            <td style="text-align:center;border-right:1px solid #cccccc">RELU</td><td></td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">Max pooling</td>
-            <td style="text-align:center">2x2 stride, SAME padding, output 19x78x32</td>
+            <td style="text-align:center;border-right:1px solid #cccccc">Convolution 5x5</td>
+            <td style="text-align:center">2x2 stride, VALID padding, output 5x22x48</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">Convolution 3x3</td>
-            <td style="text-align:center">1x1 stride, VALID padding, output 17x76x24</td>
-        </tr>
-        <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">ELU</td><td></td>
-        </tr>
-        <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">Max pooling</td>
-            <td style="text-align:center">2x2 stride, SAME padding, output 9x38x24</td>
+            <td style="text-align:center;border-right:1px solid #cccccc">RELU</td><td></td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Convolution 3x3</td>
-            <td style="text-align:center">1x1 stride, VALID padding, output 7x36x16</td>
+            <td style="text-align:center">1x1 stride, VALID padding, output 3x20x64</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">ELU</td><td></td>
+            <td style="text-align:center;border-right:1px solid #cccccc">RELU</td><td></td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">Max pooling</td>
-            <td style="text-align:center">2x2 stride, SAME padding, output 4x18x16</td>
+            <td style="text-align:center;border-right:1px solid #cccccc">Convolution 3x3</td>
+            <td style="text-align:center">1x1 stride, VALID padding, output 1x18x64</td>
+        </tr>
+        <tr style="border-bottom:1px solid #cccccc">
+            <td style="text-align:center;border-right:1px solid #cccccc">RELU</td><td></td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Flatten</td>
@@ -169,14 +160,21 @@ The final model architecture (model.py lines 83-115) consisted of a convolutiona
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Dense</td>
-            <td style="text-align:center">output 516</td>
+            <td style="text-align:center">output 100</td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
-            <td style="text-align:center;border-right:1px solid #cccccc">ELU</td><td></td>
+            <td style="text-align:center;border-right:1px solid #cccccc">RELU</td><td></td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Dropout</td>
             <td style="text-align:center">Keep probability 0.2</td>
+        </tr>
+        <tr style="border-bottom:1px solid #cccccc">
+            <td style="text-align:center;border-right:1px solid #cccccc">Dense</td>
+            <td style="text-align:center">output 10</td>
+        </tr>
+        <tr style="border-bottom:1px solid #cccccc">
+            <td style="text-align:center;border-right:1px solid #cccccc">RELU</td><td></td>
         </tr>
         <tr style="border-bottom:1px solid #cccccc">
             <td style="text-align:center;border-right:1px solid #cccccc">Dense</td>
