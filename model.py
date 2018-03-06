@@ -11,7 +11,7 @@ from keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout, Activati
 
 
 # Config: Modify when necessary
-data_root = './data3'
+data_root = './data'
 batch_size = 96
 EPOCHS = 5
 
